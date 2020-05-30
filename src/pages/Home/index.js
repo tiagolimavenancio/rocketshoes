@@ -21,7 +21,7 @@ function Home({ dispatch }) {
     setProducts(data);
   };
 
-  const handleAddProduct = (product) => {
+  const onHandleAddProduct = (product) => {
     dispatch({
       type: 'ADD_TO_CART',
       product,
@@ -37,7 +37,7 @@ function Home({ dispatch }) {
           <strong>{product.title}</strong>
           <span>{product.priceFormatted}</span>
 
-          <button type="button" onClick={() => handleAddProduct(product)}>
+          <button type="button" onClick={() => onHandleAddProduct(product)}>
             <div>
               <MdAddShoppingCart size={16} color="#fff" /> 3
             </div>
