@@ -40,6 +40,8 @@
     ]
   },
   "devDependencies": {
-    "json-server": "^0.16.1"
+    "json-server": "^0.16.1",
+    "reactotron-react-js": "^3.3.7",
+    "reactotron-redux": "^3.1.3"
   }
 }
