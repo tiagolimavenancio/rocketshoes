@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
+import api from '../../services/api';
+import { formatPrice } from '../../util/format';
 import { ProductList } from './styles';
 
 function Home() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  async function fetchProducts() {
+    const response = await api.get('products');
+    const data = response.data.map((product) => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
+    setProducts(data);
+  }
+
   return (
     <ProductList>
-      {[1, 2, 3, 4, 5].map((item, i) => (
-        <li key={i}>
-          <img
-            src="https://t-static.dafiti.com.br/-cUdxcDpEwwiP7xqPY8AL4XXTN8=/fit-in/333x483/dafitistatic-a.akamaihd.net%2fp%2fskechers-t%25c3%25aanis-skechers-go-run-600-defiance-preto-0642-3854764-1-product.jpg"
-            alt="Schetchers"
-          />
+      {products.map((product) => (
+        <li key={product.id}>
+          <img src={product.image} alt={product.title} />
 
-          <strong>Tênis Rocket</strong>
-          <span>$ 200,00</span>
+          <strong>{product.title}</strong>
+          <span>{product.priceFormatted}</span>
 
           <button type="button">
             <div>
