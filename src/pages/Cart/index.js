@@ -8,8 +8,9 @@ import {
 } from 'react-icons/md';
 import * as CartActions from '../../store/ducks/cart/actions';
 import { Container, ProductTable, Total } from './styles';
+import { formatPrice } from '../../util/format';
 
-function Cart({ cart, removeFromCart, updateAmount }) {
+function Cart({ cart, removeFromCart, updateAmount, total }) {
   function increment(product) {
     updateAmount(product.id, product.amount + 1);
   }
@@ -58,7 +59,7 @@ function Cart({ cart, removeFromCart, updateAmount }) {
                 </div>
               </td>
               <td>
-                <strong>R$ 258,80</strong>
+                <strong>{product.subtotal}</strong>
               </td>
               <td>
                 <div>
@@ -79,7 +80,7 @@ function Cart({ cart, removeFromCart, updateAmount }) {
         <button type="button">Finished Order</button>
         <Total>
           <span>TOTAL</span>
-          <strong>$ 1.920,28</strong>
+          <strong>{total}</strong>
         </Total>
       </footer>
     </Container>
@@ -87,7 +88,15 @@ function Cart({ cart, removeFromCart, updateAmount }) {
 }
 
 const mapStateToProps = (state) => ({
-  cart: state.cart,
+  cart: state.cart.map((product) => ({
+    ...product,
+    subtotal: formatPrice(product.price * product.amount),
+  })),
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ),
 });
 
 const mapDispatchToProps = (dispatch) =>
