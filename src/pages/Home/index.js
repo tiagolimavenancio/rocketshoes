@@ -7,7 +7,7 @@ import api from '../../services/api';
 import { formatPrice } from '../../util/format';
 import { ProductList } from './styles';
 
-function Home({ addToCart, amount }) {
+function Home({ addToCartRequest, amount }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -23,8 +23,8 @@ function Home({ addToCart, amount }) {
     setProducts(data);
   };
 
-  const onHandleAddProduct = (product) => {
-    addToCart(product);
+  const onHandleAddProduct = (id) => {
+    addToCartRequest(id);
   };
 
   return (
@@ -36,7 +36,7 @@ function Home({ addToCart, amount }) {
           <strong>{product.title}</strong>
           <span>{product.priceFormatted}</span>
 
-          <button type="button" onClick={() => onHandleAddProduct(product)}>
+          <button type="button" onClick={() => onHandleAddProduct(product.id)}>
             <div>
               <MdAddShoppingCart size={16} color="#fff" />{' '}
               {amount[product.id] || 0}
